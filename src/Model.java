@@ -8,6 +8,9 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 public class Model {
+    /**
+     * establish a neural network architecture without any training
+     * **/
     public BasicNetwork estNNStructure(double[][] inputs, double[][] y){
         // create a neural network, without using a factory
         BasicNetwork network = new BasicNetwork();
@@ -19,6 +22,9 @@ public class Model {
         Encog.getInstance().shutdown();
         return network;
     }
+    /**
+     * train a neural network by the bp algorithm
+     * **/
     public BasicNetwork trainNN(BasicNetwork network, MLDataSet trainingSet){
         // train the neural network
         final Backpropagation train = new Backpropagation(network, trainingSet, Numbers.LEARNINGRATE, Numbers.MOMENTUM);
@@ -30,7 +36,7 @@ public class Model {
             System.out.println("Epoch #" + epoch + " Error:" + train.getError());
             subError[epoch%Numbers.ERRORSIZE] = train.getError();
             epoch++;
-            if (epoch > Numbers.MAXITERS || train.getError() < Numbers.TRESHOLDS){
+            if (epoch > Numbers.MAXITERS || train.getError() < Numbers.THRESHOLDS){
                 break;
             } else if(epoch>=Numbers.ERRORSIZE){
                 double diff =stopRule2(subError);
@@ -43,6 +49,10 @@ public class Model {
         train.finishTraining();
         return network;
     }
+    /**
+     * if the sum of nearby N errors's differences are too small,
+     * the training progress will stop
+     * **/
     public double stopRule2(double[] error){
         double difference = Numbers.ZERO2;
         for (int i = Numbers.ZERO; i < error.length - Numbers.ONE; i++){
@@ -50,6 +60,10 @@ public class Model {
         }
         return difference;
     }
+    /**
+     * make predictions by a neural network,
+     * produce binary multidimensional outputs with probabilities
+     * **/
     public double[][] predictionCodeProb(BasicNetwork network, double[][] inputs, double[][] y){
         // create testing data
         MLDataSet testingSet = new BasicMLDataSet(inputs, y);
@@ -65,6 +79,9 @@ public class Model {
         }
         return data;
     }
+    /**
+     * convert binary multidimensional predictions(double[][]) with probabilities into binary(0/1) multidimensional predictions
+     * **/
     public double[][] predictionCodeInt(double[][] num){
         int row = num.length, col = num[Numbers.ZERO].length;
         double[][] ingPre = new double[row][col];
@@ -83,6 +100,9 @@ public class Model {
         }
         return ingPre;
     }
+    /**
+     * print the training results
+     * **/
     public void printTrainResults(BasicNetwork network, MLDataSet trainingSet){
         System.out.println("Neural Network Results:");
         StringBuffer strb = new StringBuffer();
@@ -93,6 +113,10 @@ public class Model {
             strb.append(output+ "\n");
         }
     }
+    /**
+     * print the testing results, which include:
+     * (1) prediction rate;
+     * **/
     public double printTestResults(String[][] y, String[][] yhat){
         int row = y.length;
         int count = Numbers.ZERO;

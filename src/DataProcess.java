@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class DataProcess {
+    /**
+     * read a file and store contents into a stringbuffer
+     * **/
     public StringBuffer readFile(String filepath){
         StringBuffer buffer = new StringBuffer();
         File file = new File(filepath);
@@ -26,6 +29,9 @@ public class DataProcess {
         }
         return buffer;
     }
+    /**
+     * produce inputs used for training a NN
+     * **/
     public double[][] inputProcessor(StringBuffer buffer){
         int col;
         int row;
@@ -60,6 +66,9 @@ public class DataProcess {
         }
         return inputs;
     }
+    /**
+     * produce outputs used for training a NN
+     * **/
     public String[][] outputProcessor(StringBuffer buffer, int row){
         String[][] results = new String[row][Numbers.ONE];
         String str1[], str2[];

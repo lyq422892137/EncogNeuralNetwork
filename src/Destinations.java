@@ -1,6 +1,8 @@
 import java.util.ArrayList;
-
 public class Destinations {
+    /**
+     * count how many unique destinations we have
+     * **/
     public String[] countDes(String[][] results){
         int row = results.length;
         ArrayList<String> currlist = new ArrayList<>();
@@ -14,6 +16,9 @@ public class Destinations {
         String[] str = currlist.toString().split(",");
         return str;
     }
+    /**
+     * convert each unique String destination into multidimensional binary codes
+     * **/
     public double[][] desCoding(String[] des){
         int col = des.length;
         double[][] descode = new double[col][col];
@@ -22,6 +27,9 @@ public class Destinations {
         }
         return descode;
     }
+    /**
+     * convert all destinations(String) in a given dataset into double[][], referring to the codes of destinations
+     * **/
     public double[][] conver2doubleArray(String[][] results, double[][] codes, String[] des){
         double[][] y = new double[results.length][des.length];
         for (int i = Numbers.ZERO; i< results.length; i++){
@@ -35,6 +43,9 @@ public class Destinations {
         }
         return y;
     }
+    /**
+     * convert all double[][] destinations into the real place, such as "Beijing"
+     * **/
     public String[][] convert22DStr(double[][] num, String[] codestr){
         int row = num.length, col = Numbers.ONE;
         String[][] predes = new String[row][col];

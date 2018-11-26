@@ -1,7 +1,7 @@
 public class Numbers {
     final static int ONE = 1;
     final static int ZERO = 0;
-    final static double TRESHOLDS = 0.03;
+    final static double THRESHOLDS = 0.03;
     final static int MAXITERS = 10000;
     final static int UNITES = 10;
     final static double ZERO2 = 0.00;

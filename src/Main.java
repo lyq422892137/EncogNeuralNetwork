@@ -2,6 +2,9 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 public class Main {
+    /**
+     * for calling methods and manage the program
+     * **/
     public static void main(String args[]) {
         // file path
         String filepath = "D:\\java\\a3\\src\\trip2.csv";
@@ -40,6 +43,9 @@ public class Main {
         System.out.println("Prediction Rate: " + preRate * Numbers.PERCENT + " %");
 //        System.out.println(preBuffer);
         }
+        /**
+         * print current mappings from string destination to multidimensional binary destination
+         * **/
     public static void printDesCode(double[][] descode, String[] des){
         StringBuffer strbu = new StringBuffer();
         for (int i = Numbers.ZERO;i<des.length;i++){
