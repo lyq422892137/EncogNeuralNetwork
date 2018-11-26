@@ -1,0 +1,11 @@
+        //read the data in:
+//        DataProcessor dp = new DataProcessor();
+//        File file = new File("D:\\java\\a3\\src\\trip2.csv");
+//        //the source of the data
+//        VersatileDataSource source = new CSVDataSource(file, false, CSVFormat.DECIMAL_POINT);
+//        VersatileMLDataSet data = dp.readfile(source);
+//        //establish a model
+//        EncogModel model = dp.estModel(data);
+//        MLRegression bestMethod = dp.fitModel(model, data);
+//        System.out.println("------------------------");
+//        System.out.println(bestMethod);
