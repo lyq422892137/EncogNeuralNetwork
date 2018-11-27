@@ -7,6 +7,10 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Model {
     /**
      * establish a neural network architecture without any training
@@ -40,7 +44,7 @@ public class Model {
                 break;
             } else if(epoch>=Numbers.ERRORSIZE){
                 double diff =stopRule2(subError);
-                if (diff <= Numbers.min){
+                if (diff <= Numbers.MIN){
                     break;
                 }
             }
@@ -117,17 +121,94 @@ public class Model {
      * print the testing results, which include:
      * (1) prediction rate;
      * **/
-    public double printTestResults(String[][] y, String[][] yhat){
+    public double printTestResults(String[][] y, String[][] yhat) {
         int row = y.length;
         int count = Numbers.ZERO;
-        for (int i = Numbers.ZERO; i< row; i++){
+        for (int i = Numbers.ZERO; i < row; i++) {
             String str1 = y[i][Numbers.ZERO];
             String str2 = yhat[i][Numbers.ZERO];
-            if (str2.contains(str1)){
+            if (str2.contains(str1)) {
                 count++;
             }
         }
-        double predRate = (double)count/row;
+        double predRate = (double) count / row;
         return predRate;
+    }
+    public int[] setTrainingIndex(int amount, double percent){
+        int size = (int)Math.floor((double)amount*percent);
+        int[] trainIndex = new int[size];
+        List<Integer> list;
+        Random r = new Random();
+        list = new ArrayList<>();
+        int i;
+        while(list.size() < size){
+            i = r.nextInt(amount);
+            if(!list.contains(i)){
+                list.add(i);
+            }
+        }
+        for (int m = Numbers.ZERO; m < list.size(); m++){
+            trainIndex[m] = list.get(m);
+        }
+        return trainIndex;
+    }
+    public int[] setTestingIndex(int[] trainindex, int amount){
+        int[] index = new int[amount-trainindex.length];
+        int flag = Numbers.ZERO, count = Numbers.ZERO;
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = Numbers.ZERO; i < trainindex.length; i++){
+            list.add(trainindex[i]);
+        }
+        for (int i = Numbers.ZERO; i < amount; i++){
+            if (!list.contains(flag)){
+                index[count] = flag;
+                count++;
+            }
+            flag++;
+        }
+        return index;
+    }
+    public double[][] getDoubleSets(int[] index, double[][] data){
+        int row = data.length, newrow = index.length;
+        int col = data[Numbers.ZERO].length;
+        int[] newIndex = sort(index);
+        double[][] newData = new double[newrow][col];
+        int count = Numbers.ZERO;
+        for (int i = Numbers.ZERO; i<row; i++){
+            if (count < newrow && i == newIndex[count]){
+                for (int j = Numbers.ZERO; j< col; j++){
+                    newData[count][j] = data[i][j];
+                }
+                count++;
+            }
+        }
+        return newData;
+    }public String[][] getStrSet(int[] index, String[][] data){
+        int row = data.length, newrow = index.length;
+        int col = data[Numbers.ZERO].length;
+        int[] newIndex = sort(index);
+        String[][] newData = new String[newrow][col];
+        int count = Numbers.ZERO;
+        for (int i = Numbers.ZERO; i<row; i++){
+            if (count < newrow && i == newIndex[count]){
+                for (int j = Numbers.ZERO; j< col; j++){
+                    newData[count][j] = data[i][j];
+                }
+                count++;
+            }
+        }
+        return newData;
+    }
+    private int[] sort(int[] arr){
+        for(int i=arr.length-1;i>0;i--){
+            for(int j=1;j<=i;j++){
+                if(arr[j-1]>arr[j]){
+                    int tmp = arr[j-1];
+                    arr[j-1] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+        }
+        return arr;
     }
 }

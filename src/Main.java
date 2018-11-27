@@ -15,7 +15,7 @@ public class Main {
         // read the file
         StringBuffer buffer = dp.readFile(filepath);
         /*
-        * generate outputs and inputs according to the file
+        * generate outputs and inputs according to the file (without training and testing sets)
         * */
         double[][] inputs = dp.inputProcessor(buffer);
         int row = inputs.length;
@@ -26,20 +26,28 @@ public class Main {
         double[][] code = des.desCoding(list);
         // show the infor
         printDesCode(code, list);
-        // convert outputs into relative binay codes
+        // convert all outputs into relative binary codes
         double[][] y = des.conver2doubleArray(results, code, list);
-        // create training data
-        MLDataSet trainingSet = new BasicMLDataSet(inputs, y);
+        // create8 training data (with a training and a testing set)
+        int[] index1 = nnmodel.setTrainingIndex(y.length, Numbers.TRAINPER);
+        int[] index2 = nnmodel.setTestingIndex(index1, y.length);
+//        dp.printKIntArray(index2);
+        double[][] x_train = nnmodel.getDoubleSets(index1, inputs);
+        double[][] y_train = nnmodel.getDoubleSets(index1, y);
+        double[][] x_test = nnmodel.getDoubleSets(index2, inputs);
+        double[][] y_test = nnmodel.getDoubleSets(index2, y);
+        String[][] y_testStr = nnmodel.getStrSet(index2, results);
+        MLDataSet trainingSet = new BasicMLDataSet(x_train, y_train);
         // build an architecture of the nn
-        BasicNetwork arich = nnmodel.estNNStructure(inputs, y);
+        BasicNetwork arich = nnmodel.estNNStructure(x_train, y_train);
         // train the nn by bp
         BasicNetwork network = nnmodel.trainNN(arich, trainingSet);
         // have a look at the training results
 //        nnmodel.printTrainResults(network, trainingSet);
         // make predictions according to given training set
-        String[][] predicitons = des.convert22DStr(nnmodel.predictionCodeInt(nnmodel.predictionCodeProb(network, inputs, y)),
+        String[][] predicitons = des.convert22DStr(nnmodel.predictionCodeInt(nnmodel.predictionCodeProb(network, x_test, y_test)),
                 list);
-        double preRate = nnmodel.printTestResults(results, predicitons);
+        double preRate = nnmodel.printTestResults(y_testStr, predicitons);
         System.out.println("Prediction Rate: " + preRate * Numbers.PERCENT + " %");
 //        System.out.println(preBuffer);
         }
@@ -55,6 +63,7 @@ public class Main {
             }
             strbu.append("\n");
         }
-        System.out.println(strbu);
+        System.out.print(strbu);
     }
+
 }

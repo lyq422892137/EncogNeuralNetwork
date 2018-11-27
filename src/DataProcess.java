@@ -90,7 +90,13 @@ public class DataProcess {
         }
         System.out.println();
     }
-    public void printNoArray(double[] array) {
+    public void printDoubleArray(double[] array) {
+        for (int i=Numbers.ZERO; i< array.length; i++){
+            System.out.print(array[i] + " ");
+        }
+        System.out.println();
+    }
+    public void printKIntArray(int[] array) {
         for (int i=Numbers.ZERO; i< array.length; i++){
             System.out.print(array[i] + " ");
         }
