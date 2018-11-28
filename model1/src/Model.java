@@ -7,6 +7,10 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.persist.EncogDirectoryPersistence;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -128,6 +132,7 @@ public class Model {
             String str1 = y[i][Numbers.ZERO];
             String str2 = yhat[i][Numbers.ZERO];
             if (str2.contains(str1)) {
+//                System.out.println(str1 + " : " + str2);
                 count++;
             }
         }
@@ -220,5 +225,20 @@ public class Model {
         }
         double[][] prediction = predictionCodeInteger(output2);
         return prediction;
+    }
+    public void saveNN(BasicNetwork network, String filepath){
+        File file = new File(filepath);
+        if (file.exists()){
+            file.delete();
+        }
+        try {
+            if(file.createNewFile()){
+                EncogDirectoryPersistence.saveObject(file, network);
+            }else{
+                System.out.println("Sorry, saving the trained neural network failed.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

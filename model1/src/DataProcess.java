@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -9,11 +8,12 @@ public class DataProcess {
     /**
      * read a file and store contents into a stringbuffer
      * **/
-    public StringBuffer readFile(String filepath) throws FileNotFoundException {
+    public StringBuffer readFile(String filepath){
         StringBuffer buffer = new StringBuffer();
         File file = new File(filepath);
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        BufferedReader br;
         try {
+            br = new BufferedReader(new FileReader(file));
             String line = "";
             while ((line = br.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, ",");
@@ -45,19 +45,19 @@ public class DataProcess {
         /*
         * calculate numbers of rows and columns
         * */
-        //the first row of column names will BE included
-        row = str1.length;
+        //the first row of column names will not be included
+        row = str1.length - Numbers.ONE ;
         //the last col of results will not be included
         col = buffer.toString().split(",").length - Numbers.ONE;
         //declare a 2d int array
         double[][] inputs = new double[row][col];
 //        System.out.println("row: "+ row +"\n column: "+ col);
         //assign values into the 2d double[][]
-        for (int i = Numbers.ZERO; i<row; i++){
+        for (int i=Numbers.ZERO; i<row; i++){
             //clear the buffer
             buffer = new StringBuffer();
             // add one row into the cleared buffer
-            buffer.append(str1[i]);
+            buffer.append(str1[i + Numbers.ONE]);
             // split values in the row
             str2 = buffer.toString().split(",");
             for (int j=Numbers.ZERO;j<col; j++){
@@ -77,11 +77,10 @@ public class DataProcess {
             //clear the buffer
             buffer = new StringBuffer();
             // add one row into the cleared buffer
-            buffer.append(str1[i]);
+            buffer.append(str1[i + Numbers.ONE]);
             // split values in the row
             str2 = buffer.toString().split(",");
-            results[i][Numbers.ZERO] = str2[str2.length-Numbers.ONE];
-            results[i][Numbers.ZERO] = results[i][Numbers.ZERO].replaceAll(" ", "");
+            results[i][Numbers.ZERO] = str2[str2.length-Numbers.ONE].replaceAll(" ","");
         }
         results[Numbers.ZERO][Numbers.ZERO] = results[Numbers.ZERO][Numbers.ZERO].replaceAll("\\p{Punct}","");
         results[row - Numbers.ONE][Numbers.ZERO] = results[row - Numbers.ONE][Numbers.ZERO].replaceAll("\\p{Punct}","");

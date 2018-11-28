@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Random;
+
 public class Destinations {
     /**
      * count how many unique destinations we have
@@ -56,8 +58,40 @@ public class Destinations {
                 }
             }
         }
-        predes[Numbers.ZERO][Numbers.ZERO] = predes[Numbers.ZERO][Numbers.ZERO].replaceAll("\\p{Punct}","");
-        predes[row-Numbers.ONE][Numbers.ZERO] = predes[row-Numbers.ONE][Numbers.ZERO].replaceAll("\\p{Punct}","");
         return predes;
+    }
+    public int checkRepetition(String newDes, String[] list) {
+        int count = Numbers.ZERO;
+        for (int i = Numbers.ZERO;i<list.length;i++){
+            String currstr = list[i];
+            if (currstr.contains(newDes)){
+                count++;
+            }
+        }
+        if (count!=Numbers.ZERO){
+            return Numbers.ZERO;
+        } else{
+            return Numbers.ONE;
+        }
+    }
+    public StringBuffer addNewDes(StringBuffer buffer, String des, String[] list, int featureNo){
+        if (checkRepetition(des, list)==Numbers.ONE){
+            System.out.println("\n\n\n\n=================");
+            buffer.append(generateRow(des, featureNo));
+        }
+        return buffer;
+    }
+    public String generateRow(String des, int featureNo){
+        StringBuffer bf = new StringBuffer();
+        Random rand = new Random();
+        for (int i=Numbers.ZERO; i<featureNo;i++){
+            if (rand.nextInt(Numbers.UNITES)%Numbers.TWO==Numbers.ZERO){
+                bf.append(Numbers.ZERO+",");
+            } else{
+                bf.append(Numbers.ONE+",");
+            }
+        }
+        bf.append(des+",\n");
+        return bf.toString();
     }
 }
