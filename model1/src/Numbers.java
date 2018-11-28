@@ -6,7 +6,7 @@ public class Numbers {
     final static int UNITES = 10;
     final static double ZERO2 = 0.00;
     final static double ONE2 = 1.00;
-    final static int ERRORSIZE = 5;
+    final static int ERRORSIZE = 3;
     final static double MIN = 0.0001;
     final static double LEARNINGRATE = 0.03;
     final static double MOMENTUM = 0.1;

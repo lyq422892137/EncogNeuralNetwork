@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
-
 public class DataProcess {
     /**
      * read a file and store contents into a stringbuffer
